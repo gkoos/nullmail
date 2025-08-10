@@ -78,7 +78,7 @@ Refer to `.env.example` for all required environment variables and ensure they a
 
 ## Project Structure
 
-- SvelteKit frontend and API routes.
+- SvelteKit frontend and API routes hosted on Vercel.
 - Supabase backend.
 - Forwardemail.net for email forwarding.
 - Tailwind CSS for styling.
