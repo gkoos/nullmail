@@ -1,0 +1,7 @@
+tunnel: c0fd4325-e3ef-41e4-9276-2b5c90ba6ba6
+credentials-file: C:\Users\gabor\.cloudflared\c0fd4325-e3ef-41e4-9276-2b5c90ba6ba6.json
+
+ingress:
+  - hostname: dev.nullmail.cc
+    service: http://localhost:3000
+  - service: http_status:404
