@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseServer';
 import { generateAddress } from '$lib/generateAddress';
+import { EMAIL_DOMAIN } from '$env/static/private';
 
 /**
  * POST /api/emails
@@ -8,7 +9,7 @@ import { generateAddress } from '$lib/generateAddress';
  */
 export async function POST() {
     const localPart = generateAddress();
-    const domain = 'maildock.store';
+    const domain = EMAIL_DOMAIN;
     const address = `${localPart}@${domain}`;
     const expiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
