@@ -1,0 +1,48 @@
+name: Email Domain Blacklist Check
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run blacklist check and create issue if failed
+        run: |
+          # Run the check-domain script, capture logs
+          mkdir -p tmp
+          node scripts/check-domain.js 2>&1 | tee tmp/failure_log.txt
+          EXIT_CODE=${PIPESTATUS[0]}
+
+          if [ $EXIT_CODE -ne 0 ]; then
+            # Generate issue markdown
+            echo "## Email Domain Blacklist Alert 🚨" > tmp/issue.md
+            echo "" >> tmp/issue.md
+            echo "The monitored email domain appears to be blacklisted." >> tmp/issue.md
+            echo "" >> tmp/issue.md
+            echo "### Details" >> tmp/issue.md
+            echo '```' >> tmp/issue.md
+            cat tmp/failure_log.txt >> tmp/issue.md
+            echo '```' >> tmp/issue.md
+            echo "" >> tmp/issue.md
+            echo "*This issue was created automatically by GitHub Actions.*" >> tmp/issue.md
+
+            # Create GitHub issue
+            gh issue create \
+              --title "⚠️ Domain Blacklisted: maildock.store" \
+              --body-file tmp/issue.md \
+              --label alert,domain
+          fi
+
+          # Exit with the script exit code so workflow fails visibly
+          exit $EXIT_CODE

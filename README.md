@@ -84,6 +84,10 @@ Refer to `.env.example` for all required environment variables and ensure they a
 - Tailwind CSS for styling.
 - Cloudflare tunnel for local development.
 
+## Email Domain Blacklist Check
+
+Nullmail includes a workflow to check if the email domain is blacklisted using the StopForumSpam API. This check is performed daily and can also be triggered manually. If the domain is found to be blacklisted, an issue is created in the repository for further investigation.
+
 ## Security and Abuse Considerations
 
 Nullmail is designed with privacy and security in mind, but temporary email services inherently face challenges related to abuse and misuse. Below are some key considerations and measures taken to mitigate risks:
