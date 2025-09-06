@@ -14,22 +14,22 @@
 	let loadingBody = false;
 	let error = '';
 	let refreshCountdown = 15;
-let extendValue = '5m';
-let extending = false;
-async function handleExtend() {
-	if (!extendValue || !email) return;
-	extending = true;
-	try {
-		const res = await fetch(`/api/emails/${email}/extend/${extendValue}`, { method: 'PUT' });
-		if (res.status === 200) {
-			await fetchData();
+	let extendValue = '5m';
+	let extending = false;
+	async function handleExtend() {
+		if (!extendValue || !email) return;
+		extending = true;
+		try {
+			const res = await fetch(`/api/emails/${email}/extend/${extendValue}`, { method: 'PUT' });
+			if (res.status === 200) {
+				await fetchData();
+			}
+			// Optionally, handle errors or show feedback here
+		} catch (e) {
+			// Optionally, handle network errors
 		}
-		// Optionally, handle errors or show feedback here
-	} catch (e) {
-		// Optionally, handle network errors
+		extending = false;
 	}
-	extending = false;
-}
 
 	let showQr = false;
 	let qrDataUrl = '';
@@ -145,9 +145,9 @@ async function handleExtend() {
 <main
 	class="flex min-h-screen items-center justify-center bg-gradient-to-tr from-blue-200 via-white to-blue-400 px-2 sm:px-4"
 >
-<div
-	class="min-h-screen w-full max-w-[1600px] mx-auto my-10 sm:my-16 overflow-hidden rounded-3xl border border-blue-100 bg-white/60 p-0 shadow-2xl backdrop-blur-lg"
->
+	<div
+		class="mx-auto my-10 min-h-screen w-full max-w-[1600px] overflow-hidden rounded-3xl border border-blue-100 bg-white/60 p-0 shadow-2xl backdrop-blur-lg sm:my-16"
+	>
 		<div class="w-full pt-2 pb-4 sm:px-12 sm:pt-4 sm:pb-6">
 			<!-- Header -->
 			<div class="flex w-full flex-col items-center gap-2">
@@ -165,8 +165,7 @@ async function handleExtend() {
 						aria-label="Copy inbox URL"
 						title="Copy"
 						class="rounded p-1 transition-colors duration-150 hover:scale-105 hover:bg-blue-100 hover:shadow active:bg-blue-200"
-						on:click={() =>
-							navigator.clipboard.writeText(email)}
+						on:click={() => navigator.clipboard.writeText(email)}
 					>
 						<Icon
 							icon="mdi:content-copy"
@@ -188,35 +187,37 @@ async function handleExtend() {
 			</div>
 			<!-- Progress Bar for Expiry -->
 			{#if expiry}
-			<div class="mt-4 flex w-full flex-col items-center gap-2">
-				<div class="relative h-3 w-full overflow-hidden rounded-full bg-blue-100">
-					<div
-						class={`absolute top-0 left-0 h-3 ${isExpiringSoon ? 'bg-gradient-to-r from-red-500 via-red-400 to-red-600' : 'bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500'} animate-pulse`}
-						style={`width: ${expiryPercent}%`}
-					></div>
+				<div class="mt-4 flex w-full flex-col items-center gap-2">
+					<div class="relative h-3 w-full overflow-hidden rounded-full bg-blue-100">
+						<div
+							class={`absolute top-0 left-0 h-3 ${isExpiringSoon ? 'bg-gradient-to-r from-red-500 via-red-400 to-red-600' : 'bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500'} animate-pulse`}
+							style={`width: ${expiryPercent}%`}
+						></div>
+					</div>
+					<div class="mt-1 flex items-center gap-2 text-base">
+						<span class="text-gray-600">Expires in:</span>
+						<span class={`font-mono ${isExpiringSoon ? 'text-red-600' : 'text-blue-700'}`}
+							>{expiryCountdown}</span
+						>
+						<button
+							class="rounded bg-blue-600 px-2 py-1 font-bold text-white shadow transition-colors duration-150 hover:bg-blue-700 disabled:bg-blue-200 disabled:text-blue-700 disabled:opacity-50"
+							on:click={handleExtend}
+							disabled={extending}>{extending ? 'Extending...' : 'Extend'}</button
+						>
+						<select
+							class="rounded-lg border border-blue-300 bg-blue-50 px-6 py-1 font-semibold text-blue-700 shadow-sm transition-all duration-150 hover:bg-blue-100 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:bg-blue-100 disabled:text-blue-400"
+							bind:value={extendValue}
+							disabled={extending}
+						>
+							<option value="5m">5mins</option>
+							<option value="10m">10mins</option>
+							<option value="15m">15mins</option>
+							<option value="30m">30mins</option>
+							<option value="1h">1h</option>
+							<option value="2h">2h</option>
+						</select>
+					</div>
 				</div>
-				<div class="mt-1 flex items-center gap-2 text-base">
-					<span class="text-gray-600">Expires in:</span>
-					<span class={`font-mono ${isExpiringSoon ? 'text-red-600' : 'text-blue-700'}`}>{expiryCountdown}</span>
-					<button
-						class="rounded bg-blue-600 px-2 py-1 text-white font-bold shadow transition-colors duration-150 hover:bg-blue-700 disabled:bg-blue-200 disabled:text-blue-700 disabled:opacity-50"
-						on:click={handleExtend}
-						disabled={extending}
-					>{extending ? 'Extending...' : 'Extend'}</button>
-<select
-	class="rounded-lg border border-blue-300 bg-blue-50 px-6 py-1 text-blue-700 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-150 hover:bg-blue-100 disabled:bg-blue-100 disabled:text-blue-400"
-	bind:value={extendValue}
-	disabled={extending}
->
-						<option value="5m">5mins</option>
-						<option value="10m">10mins</option>
-						<option value="15m">15mins</option>
-						<option value="30m">30mins</option>
-						<option value="1h">1h</option>
-						<option value="2h">2h</option>
-					</select>
-				</div>
-			</div>
 			{/if}
 			<!-- Refresh -->
 			<div class="mt-4 flex w-full items-center gap-2">
@@ -270,26 +271,43 @@ async function handleExtend() {
 					No emails yet.
 				</div>
 			{/if}
-	  <section class="mt-6 w-full flex flex-col items-center">
-<div class="max-w-2xl w-full bg-blue-50 rounded-xl p-6 shadow text-blue-900">
-		  <h2 class="text-xl font-bold mb-2 text-blue-700">What Is Nullmail?</h2>
-		  <p class="mb-2 text-base">
-			Nullmail is a privacy-focused, no-fuss, free disposable email service designed for quick, anonymous use. No sign-up, no tracking, and no personal data required. Your temporary inbox is created instantly and expires automatically, ensuring your information is never stored longer than needed.
-		  </p>
-		  <ul class="list-disc pl-5 text-base mb-2">
-			<li>Protect your real email from spam and leaks</li>
-			<li>Sign up for websites or services without sharing personal info</li>
-			<li>Receive verification codes or links securely and privately</li>
-			<li>All mailboxes are ephemeral and deleted after expiry</li>
-		  </ul>
-		  <p class="text-sm text-gray-600">
-			Nullmail is ideal for anyone who values privacy, security, and convenience online.
-		  </p>
-      <p class="mt-4 text-sm text-gray-600">
-        <a href="/faq" class="text-blue-600 hover:underline">Learn more in our FAQ</a>
-      </p>
-		</div>
-	  </section>
+			<section class="mt-6 flex w-full flex-col items-center">
+				<div class="w-full max-w-2xl rounded-xl bg-blue-50 p-6 text-blue-900 shadow">
+					<div class="mt-6 flex flex-col items-center">
+						<p class="mb-3 text-sm text-gray-600">
+							If Nullmail helps protect your privacy, consider supporting its development:
+						</p>
+						<a
+							href="https://www.buymeacoffee.com/gkoos"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 font-semibold text-yellow-900 shadow-md transition-colors duration-150 hover:bg-yellow-500"
+						>
+							<span>☕</span>
+							<span>Buy me a coffee</span>
+						</a>
+					</div>
+					<h2 class="mb-2 text-xl font-bold text-blue-700">What Is Nullmail?</h2>
+					<p class="mb-2 text-base">
+						Nullmail is a privacy-focused, no-fuss, free disposable email service designed for
+						quick, anonymous use. No sign-up, no tracking, and no personal data required. Your
+						temporary inbox is created instantly and expires automatically, ensuring your
+						information is never stored longer than needed.
+					</p>
+					<ul class="mb-2 list-disc pl-5 text-base">
+						<li>Protect your real email from spam and leaks</li>
+						<li>Sign up for websites or services without sharing personal info</li>
+						<li>Receive verification codes or links securely and privately</li>
+						<li>All mailboxes are ephemeral and deleted after expiry</li>
+					</ul>
+					<p class="text-sm text-gray-600">
+						Nullmail is ideal for anyone who values privacy, security, and convenience online.
+					</p>
+					<p class="mt-4 text-sm text-gray-600">
+						<a href="/faq" class="text-blue-600 hover:underline">Learn more in our FAQ</a>
+					</p>
+				</div>
+			</section>
 			{#if showQr}
 				<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 					<div
