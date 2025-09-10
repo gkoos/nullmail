@@ -1,4 +1,7 @@
 <script>
+  import { withFromExtension, getExtensionLinkType } from "$lib/fromExtension";
+  import ExtensionLink from "./extensionLink.svelte";
+
   export let title;
   export let message;
   export let red = false;
@@ -9,6 +12,7 @@
     <div class="w-full sm:pt-4 sm:pb-6 sm:px-12 pt-2 pb-4">
       <div class="flex flex-col items-center gap-2 w-full">
         <span class="text-5xl sm:text-6xl font-extrabold text-blue-700 tracking-tight drop-shadow-lg mb-2">Nullmail</span>
+        <ExtensionLink browser={getExtensionLinkType()} />
         <span class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight drop-shadow-lg">{title}</span>
       </div>
       <div class="w-full border-t border-blue-200 mt-4"></div>
@@ -16,7 +20,7 @@
         <span class="{red ? 'text-red-600' : 'text-gray-600'} text-base text-center">{message}</span>
       </div>
       <div class="w-full flex justify-center mt-6">
-        <a href="/" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow transition-colors duration-150">Create New Inbox</a>
+        <a href="{withFromExtension('/')} " class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow transition-colors duration-150">Create New Inbox</a>
       </div>
     </div>
   </div>

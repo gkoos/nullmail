@@ -4,6 +4,8 @@
 	import Icon from '@iconify/svelte';
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
+	import { withFromExtension, getExtensionLinkType } from '$lib/fromExtension';
+	import ExtensionLink from '$lib/components/extensionLink.svelte';
 
 	let email = '';
 	let expiry = '';
@@ -56,7 +58,7 @@
 		const res = await fetch(`/api/emails/${email}`);
 		const data = await res.json();
 		if (res.status === 404 && data?.error === 'Address not found') {
-			window.location.href = '/notfound';
+			window.location.href = withFromExtension('/notfound');
 			return;
 		}
 		expiry = data.expiry;
@@ -99,7 +101,7 @@
 			}
 			isExpiringSoon = msLeft > 0 && msLeft < 30000;
 			if (expiryCountdown === 'Expired') {
-				window.location.href = '/expired';
+				window.location.href = withFromExtension('/expired');
 			}
 		}, 1000);
 		expiryCountdown = formatExpiry(expiry);
@@ -155,6 +157,7 @@
 					class="mb-2 text-5xl font-extrabold tracking-tight text-blue-700 drop-shadow-lg sm:text-6xl"
 					>Nullmail</span
 				>
+				<ExtensionLink browser={getExtensionLinkType()} />
 				<span
 					class="text-2xl font-extrabold tracking-tight text-gray-900 drop-shadow-lg sm:text-3xl"
 					>Your Temporary Email Address:</span
@@ -304,7 +307,7 @@
 						Nullmail is ideal for anyone who values privacy, security, and convenience online.
 					</p>
 					<p class="mt-4 text-sm text-gray-600">
-						<a href="/faq" class="text-blue-600 hover:underline">Learn more in our FAQ</a>
+						<a href="{withFromExtension('/faq')}" class="text-blue-600 hover:underline">Learn more in our FAQ</a>
 					</p>
 				</div>
 			</section>

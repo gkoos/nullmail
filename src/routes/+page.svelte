@@ -1,12 +1,13 @@
 <script>
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
+import { withFromExtension } from '$lib/fromExtension';
 
 onMount(async () => {
     const res = await fetch('/api/emails', { method: 'POST' });
     const data = await res.json();
     if (data.address) {
-        goto(`/${data.address}`);
+        goto(withFromExtension(`/${data.address}`));
     } else {
         alert('Failed to create email address');
     }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Nullmail Extension",
-  "version": "1.0",
+  "version": "1.1",
   "permissions": ["storage", "contextMenus", "webRequest", "tabs"],
   "host_permissions": ["https://www.nullmail.cc/*", "https://nullmail.cc/*"],
   "background": {

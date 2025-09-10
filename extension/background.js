@@ -104,10 +104,10 @@ api.runtime.onStartup.addListener(createMenus);
 
 api.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === "generate") {
-    api.tabs.create({ url: "https://www.nullmail.cc/" });
+    api.tabs.create({ url: "https://www.nullmail.cc/?fromExtension=1" });
   } else {
     // Existing address clicked
     const addr = info.menuItemId;
-    api.tabs.create({ url: `https://www.nullmail.cc/${addr}` });
+    api.tabs.create({ url: `https://www.nullmail.cc/${addr}?fromExtension=1` });
   }
 });
