@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "Nullmail Extension",
+  "version": "1.0",
+  "permissions": [
+    "storage",
+    "contextMenus", 
+    "webRequest",
+    "tabs",
+    "https://www.nullmail.cc/*",
+    "https://nullmail.cc/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Nullmail Extension",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "nullmail-extension@nullmail.cc"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png", 
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

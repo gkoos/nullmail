@@ -2,7 +2,9 @@
 
 Nullmail is a privacy-focused, ephemeral tempmail service built with SvelteKit, Supabase, and ForwardEmail. It provides instant, disposable inboxes with automatic expiry, no sign-up, and no tracking. Ideal for quick, anonymous email verification and sign-up flows.
 
-Nullmail addresses the need for a quick, privacy-preserving way to receive emails without registration or tracking. It’s ideal for users who want to protect their identity during online sign-ups or verifications.
+Nullmail addresses the need for a quick, privacy-preserving way to receive emails without registration or tracking. It's ideal for users who want to protect their identity during online sign-ups or verifications.
+
+It comes with a browser extension for easy access to your temporary email addresses.
 
 ## Key Features
 - Ephemeral, disposable inboxes.
@@ -10,6 +12,7 @@ Nullmail addresses the need for a quick, privacy-preserving way to receive email
 - No sign-up or personal info required.
 - No tracking or logging of user data.
 - Built with SvelteKit, Supabase, ForwardEmail, Cloudflare Tunnel.
+- Browser extension for quick access to mailboxes.
 
 ## Live Site
 
@@ -70,6 +73,14 @@ Nullmail is running in production at [https://nullmail.cc](https://nullmail.cc).
   `npm run vercel:prod`  
   Deploys the latest code to Vercel production.
 
+- **Build browser extensions:**  
+  `npm run build:extension:all`  
+  Builds Chrome and Firefox extension versions.
+
+- **Package extensions for stores:**  
+  `npm run package:extension:all`  
+  Creates store-ready ZIP/XPI packages.
+
 ## Environment Variables
 
 Secrets and API keys (e.g., Supabase, ForwardEmail) should be set in the Vercel dashboard.
@@ -83,10 +94,33 @@ Refer to `.env.example` for all required environment variables and ensure they a
 - Forwardemail.net for email forwarding.
 - Tailwind CSS for styling.
 - Cloudflare tunnel for local development.
+- `/extension` - Source code for the browser extension.
 
 ## Email Domain Blacklist Check
 
 Nullmail includes a workflow to check if the email domain is blacklisted using the StopForumSpam API. This check is performed daily and can also be triggered manually. If the domain is found to be blacklisted, an issue is created in the repository for further investigation.
+
+## Browser Extension
+
+Enhance your Nullmail experience with the official browser extension for Chrome and Firefox:
+
+- **Automatic mailbox tracking** - Visit any Nullmail.cc mailbox and it's instantly added to your quick-access menu
+- **One-click generation** of new temporary email addresses
+- **Smart expiry detection** - Expired emails are automatically removed from your list
+- **Right-click context menu** for instant access to all your active mailboxes
+- **Cross-browser compatible** and lightweight
+
+### Installation
+- **Chrome**: [Chrome Web Store](link-when-approved)
+- **Firefox**: [Firefox Add-ons](link-when-approved)
+
+### Development
+```bash
+npm run build:extension:all     # Build both browser versions
+npm run package:extension:all   # Create store-ready packages
+```
+
+Extension source code is located in the extension/ directory.
 
 ## Security and Abuse Considerations
 

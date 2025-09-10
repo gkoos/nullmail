@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Nullmail Extension",
+  "version": "1.0",
+  "permissions": ["storage", "contextMenus", "webRequest", "tabs"],
+  "host_permissions": ["https://www.nullmail.cc/*", "https://nullmail.cc/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png", 
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

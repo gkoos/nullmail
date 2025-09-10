@@ -12,7 +12,12 @@
 		"lint": "prettier --check . && eslint .",
 		"tunnel": "cloudflared tunnel --config config.yml run",
 		"vercel:preview": "vercel",
-		"vercel:prod": "vercel --prod"
+		"vercel:prod": "vercel --prod",
+		"build:extension:chrome": "node scripts/build-chrome.js",
+		"build:extension:firefox": "node scripts/build-firefox.js",
+		"package:extension:chrome": "npm run build:extension:chrome && bestzip dist/nullmail-chrome.zip dist/chrome/*",
+		"package:extension:firefox": "npm run build:extension:firefox && cd dist/firefox && bestzip ../nullmail-firefox.xpi * && cd ../..",
+		"package:extension:all": "npm run package:extension:chrome && npm run package:extension:firefox"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -23,6 +28,7 @@
 		"@tailwindcss/forms": "^0.5.9",
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
+		"bestzip": "^2.2.1",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",

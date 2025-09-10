@@ -16,6 +16,9 @@ export default [
 	prettier,
 	...svelte.configs.prettier,
 	{
+		ignores: ['extension/**']
+	},
+	{
 		languageOptions: {
 			globals: { ...globals.browser, ...globals.node }
 		}
