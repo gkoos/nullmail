@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseServer';
 import { devLog } from '$lib/devLog';
+import { isBlockedAddress } from '$lib/blockedAddresses';
 
 const allowedAdditions = {
   '5m': 5 * 60,
@@ -18,6 +19,9 @@ const allowedAdditions = {
 export async function PUT({ params }) {
   const email = params.email;
   const addition = params.addition;
+  if (isBlockedAddress(email)) {
+    return json({ error: 'Address not found or expired' }, { status: 404 });
+  }
 
   // Validate addition
   if (!allowedAdditions[addition]) {

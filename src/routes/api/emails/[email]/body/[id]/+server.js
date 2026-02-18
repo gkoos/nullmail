@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseServer';
 import { devLog } from '$lib/devLog';
+import { isBlockedAddress } from '$lib/blockedAddresses';
 
 /**
  * GET /api/emails/[email]/body/[id]
@@ -9,6 +10,9 @@ import { devLog } from '$lib/devLog';
 export async function GET({ params }) {
     const email = params.email;
     const id = params.id;
+    if (isBlockedAddress(email)) {
+        return json({ error: 'Email body not found' }, { status: 404 });
+    }
     // Select body from emails where id and recipient match
     const { data, error } = await supabase
         .from('emails')

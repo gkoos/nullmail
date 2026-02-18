@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
 	import { withFromExtension, getExtensionLinkType } from '$lib/fromExtension';
+	import { isBlockedAddress } from '$lib/blockedAddresses';
 	import ExtensionLink from '$lib/components/extensionLink.svelte';
 
 	let email = '';
@@ -86,6 +87,10 @@
 
 	onMount(() => {
 		email = get(page).params.email;
+		if (isBlockedAddress(email)) {
+			window.location.href = withFromExtension('/notfound');
+			return;
+		}
 		fetchData();
 		startRefreshTimer();
 		// Expiry countdown updater

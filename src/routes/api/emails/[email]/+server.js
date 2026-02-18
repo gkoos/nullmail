@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseServer';
 import { devLog } from '$lib/devLog';
+import { isBlockedAddress } from '$lib/blockedAddresses';
 
 /**
  * GET /api/emails/[email]
@@ -8,6 +9,9 @@ import { devLog } from '$lib/devLog';
  */
 export async function GET({ params }) {
     const email = params.email;
+    if (isBlockedAddress(email)) {
+        return json({ error: 'Address not found' }, { status: 404 });
+    }
     // Check if address exists and get expiry, and ensure it hasn't expired
     const { data: address, error: addressError } = await supabase
         .from('addresses')
