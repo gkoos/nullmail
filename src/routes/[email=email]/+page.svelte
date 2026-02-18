@@ -311,6 +311,9 @@
 					<p class="text-sm text-gray-600">
 						Nullmail is ideal for anyone who values privacy, security, and convenience online.
 					</p>
+					<p class="text-sm text-gray-600">
+						If you wish to report spam, abuse, or illegal activity involving nullmail.cc or maildock.store addresses, please contact: <a href="mailto:abuse@maildock.store" class="text-blue-600 hover:underline">abuse@maildock.store</a>
+					</p>
 					<p class="mt-4 text-sm text-gray-600">
 						<a href="{withFromExtension('/faq')}" class="text-blue-600 hover:underline">Learn more in our FAQ</a>
 					</p>
